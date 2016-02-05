@@ -1,0 +1,7 @@
+# RNAseq tutorial
+# CMasotti 2016
+# working directory=git/tutorials
+mv ../brain/accepted_hits.bam ../brain/brain_chr19.bam
+samtools view -b -q20 ../brain/brain_chr19.bam > ../brain/brain_chr19.q20.bam
+samtools sort  ../brain/brain_chr19.q20.bam ../brain/brain_chr19.q20.sorted
+rm -f ../brain/brain_chr19.q20.bam

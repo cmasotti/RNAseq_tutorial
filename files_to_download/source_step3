@@ -1,0 +1,4 @@
+# RNAseq tutorial
+# CMasotti 2016
+# working directory=git/tutorials
+tophat2 -p 3 --no-coverage-search --transcriptome-index=../gtf_index/gencode.v16.annotation_chr19 -o ../brain ../index_chr19/hg19_chr19 ../fastq_chr19/brain_end1.fastq.gz ../fastq_chr19/brain_end2.fastq.gz 

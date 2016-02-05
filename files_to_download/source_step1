@@ -1,0 +1,5 @@
+# RNAseq tutorial
+# CMasotti 2016
+# Build genome index (hg19, GRCh37) 
+bowtie2-build ../index_chr19/hg19_chr19.fa index_chr19/hg19_chr19 
+

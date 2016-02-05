@@ -1,0 +1,4 @@
+# RNAseq tutorial
+# CMasotti 2016
+# working directory=git/tutorials
+tophat2 -G ../gencode.v16.annotation_chr19.gtf --transcriptome-index=../gtf_index/gencode.v16.annotation_chr19 ../index_chr19/hg19_chr19

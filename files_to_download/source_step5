@@ -1,0 +1,4 @@
+# RNAseq tutorial
+# CMasotti 2016
+# working directory=git/tutorials
+cufflinks -p 3 -G ../gencode.v16.annotation_chr19.gtf -o ../brain  ../brain/brain_chr19.q20.sorted.bam 
