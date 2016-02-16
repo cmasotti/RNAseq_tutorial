@@ -32,7 +32,7 @@ grep chr19 gencode.v16.annotation.gtf > gencode.v16.annotation_chr19.gtf
   
 ## Working files    
 
-In GitHub _files to download_ folder:  
+Fastq files: **brain_end1.fastq.gz** and **brain_end2.fastq.gz**  
 Genome index (used to generate Bowtie2 indexes): **hg19_chr19.fa**  
 Transcript annotations: **gencode.v16.annotation_chr19.gtf**  
 Source scripts: **source_step1 to step5**  
