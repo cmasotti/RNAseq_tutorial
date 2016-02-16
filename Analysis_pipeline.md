@@ -30,33 +30,48 @@ gunzip gencode.v16.annotation.gtf.gz
 grep chr19 gencode.v16.annotation.gtf > gencode.v16.annotation_chr19.gtf  
 ```  
   
-## Working files  
-In working directory, download the following files:   
+## Working files    
+
+In GitHub _files to download_ folder:  
 Genome index (used to generate Bowtie2 indexes): **hg19_chr19.fa**  
 Transcript annotations: **gencode.v16.annotation_chr19.gtf**  
 Source scripts: **source_step1 to step5**  
-  
-In working directory, create the following directories:  
-```bash  
-mkdir sources  
-mkdir fastq_chr19  
-mkdir index_chr19
-mkdir gtf_index  
-mkdir fpkm_files 
-mkdir brain  
-```   
-In **fastq_chr19/**, save fastq files:  
-**brain_end1.fastq.gz**  
-**brain_end2.fastq.gz**  
+RPKM files: **tissue_genes.fpkm_tracking** 
+fastq files: **brain_end1.fastq.gz** and ** brain_end2.fastq.gz**
 
-In **fpkm_files/**, save:  
-**brain_genes.fpkm_tracking, leukocyte_genes.fpkm_tracking, etc.**
-  
-In **sources/**, save:   
-**source_step1, source_step2, etc.**  
-  
+#### Using Terminal and command line to download from Dropbox link.     
+```bash    
+wget https://dl.dropboxusercontent.com/u/29723062/files_to_download/brain_end1.fastq.gz  
+wget https://dl.dropboxusercontent.com/u/29723062/files_to_download/brain_end2.fastq.gz  
+wget https://dl.dropboxusercontent.com/u/29723062/files_to_download/hg19.tar.gz  
+wget https://dl.dropboxusercontent.com/u/29723062/files_to_download/gencode_gtf.tar.gz  
+wget https://dl.dropboxusercontent.com/u/29723062/files_to_download/fpkm.tar.gz  
+wget https://dl.dropboxusercontent.com/u/29723062/files_to_download/sources.tar.gz  
+
+# decompress the following files and directories (DO NOT DECOMPRESS fastq.gz FILES!)
+tar -zxvf hg19.tar.gz  
+tar -zxvf gencode_gtf.tar.gz  
+tar -zxvf fpkm.tar.gz  
+tar -zxvf sources.tar.gz  
+
+# In working directory, create the following directories:  
+mkdir fastq_chr19  
+mkdir index_chr19  
+mkdir gtf_index  
+mkdir brain  
+
+# In **fastq_chr19/**, save fastq files:  
+mv brain_end1.fastq.gz fastq_chr19/  
+mv brain_end2.fastq.gz fastq_chr19/  
+``` 
 In **index_chr19/** and **gtf_index/** Bowtie2 will save genome and transcriptome indexes, respectively.  
-  
+In **brain/** Tophat2 will output alignment files.
+
+#### Another option for downloads  
+In GitHub, open "files to download" directory, right-click on a file link and select **"Save Link As.."**.  
+A window will open, select the working directory to download the file there.  
+Repeat these steps for each file link. 
+ 
 ## Pipeline  
   
 >Firstly, test software installation by directly typing their names on prompt.   
