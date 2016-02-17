@@ -39,7 +39,7 @@ Source scripts: **source_step1 to step5**
 RPKM files: **tissue_genes.fpkm_tracking** 
 fastq files: **brain_end1.fastq.gz** and ** brain_end2.fastq.gz**
 
-#### Using Terminal and command line to download from Dropbox link.     
+#### Using Terminal and command line to download from Dropbox link.  
 ```bash    
 wget https://dl.dropboxusercontent.com/u/29723062/files_to_download/brain_end1.fastq.gz  
 wget https://dl.dropboxusercontent.com/u/29723062/files_to_download/brain_end2.fastq.gz  
@@ -48,11 +48,18 @@ wget https://dl.dropboxusercontent.com/u/29723062/files_to_download/gencode_gtf.
 wget https://dl.dropboxusercontent.com/u/29723062/files_to_download/fpkm.tar.gz  
 wget https://dl.dropboxusercontent.com/u/29723062/files_to_download/sources.tar.gz  
 
+# Having problems with Bowtie2 permission? Download also the indexes, please. So, skip steps 1-2.
+wget https://dl.dropboxusercontent.com/u/29723062/index_chr19.tar.gz  
+wget https://dl.dropboxusercontent.com/u/29723062/gtf_index.tar.gz  
+
 # decompress the following files and directories (DO NOT DECOMPRESS fastq.gz FILES!)
-tar -zxvf hg19.tar.gz  
+tar -zxvf hg19.tar.gz   
 tar -zxvf gencode_gtf.tar.gz  
 tar -zxvf fpkm.tar.gz  
 tar -zxvf sources.tar.gz  
+
+tar -zxvf index_chr19.tar.gz # in case of ./Bowtie2 permission denied
+tar -zxvf gtf_index.tar.gz # in case of ./Bowtie2 permission denied
 
 # In working directory, create the following directories:  
 mkdir fastq_chr19  
@@ -93,7 +100,7 @@ Move **hg19_chr19.fa** to **index_chr19/**.
 
 ```bash
 mv ../hg19_chr19.fa ../index_chr19/.
-bowtie2-build ../index_chr19/hg19_chr19.fa index_chr19/hg19_chr19  
+bowtie2-build ../index_chr19/hg19_chr19.fa ../index_chr19/hg19_chr19  
 # Bowtie2 will create six files, which constitute the index:  
 # hg19_chr19.1.bt2  
 # hg19_chr19.2.bt2  
@@ -145,9 +152,7 @@ mv ../brain/accepted_hits.bam ../brain/brain_chr19.bam
 samtools view -b -q20 ../brain/brain_chr19.bam > ../brain/brain_chr19.q20.bam  
 samtools sort  ../brain/brain_chr19.q20.bam ../brain/brain_chr19.q20.sorted  
 rm -f ../brain/brain_chr19.q20.bam  
-```  
->Load fastQC, open and compare files:   
-**brain_end1.fastq.gz X brain_end2.fastq.gz X brain_chr19.q20.sorted**  
+``` 
 
 ### Step5: Estimating gene expression with Cufflinks  
 (_source_step5_)  
@@ -161,6 +166,32 @@ Cufflinks will generate several files, including **genes.fpkm_tracking**, which 
 > a. Look at the same files that were generated for several tissues in **fpkm_files/**.  
 > b. Understand FPKM estimations (Trapnell et al., 2012).  
 > c. Explore data by loading and plotting results in **R**.  
+
+**Download Trapnell pdf:**  
+```bash    
+wget https://dl.dropboxusercontent.com/u/29723062/Trapnell2012.pdf  
+``` 
+**Suggestions for data exploration in R:**
+```R  
+wd <- "/path_to_fpkm_files/"
+setwd(wd)
+brain <- read.table(file="brain_genes.fpkm_tracking", header=TRUE)
+head(brain)
+summary(brain$FPKM)
+brain_exp <- brain[brain$FPKM>0,] #select expressing genes
+head(brain_exp[order(brain_exp$FPKM),]) #order by less expressed gene
+head(brain[order(-brain$FPKM),]) #order by most expressed gene
+znf_brain <- brain[grep("^ZNF", brain$gene_short_name),]
+dim(znf_brain) #275
+head(znf_brain)
+summary(znf_brain$FPKM)
+pdf(file="brain_fpkm_plot.pdf")
+par(mfrow=c(2,2))
+hist(brain$FPKM, main="brain all genes", col="grey60", xlab="FPKM")
+hist(brain_exp$FPKM, main="brain exp genes", col="grey90", xlab="FPKM")
+hist(znf_brain$FPKM, main="brain ZNF genes", col="tomato", xlab="FPKM")
+dev.off()  
+```  
 
 ### Intermediate files to download (in case of emergency)  
 Bowtie2 indexes and brain_chr19.sorted.q20.bam:
